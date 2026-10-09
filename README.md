@@ -48,21 +48,24 @@ I design digital blocks in Verilog and take them through Cadence synthesis, stat
 - **Tools:** Verilog · Cadence Xcelium · Cadence Genus (synthesis + STA)
 - **Paper:** presented at IEEE SPAC-AID 2026
 
-### [FSM-Based 8-bit Divider: RTL to GDS](https://github.com/Tanisha110705/fsm-divider-rtl)
+### [FSM-Based 8-bit Sequential Divider: RTL to Routed Layout](https://github.com/Tanisha110705/ASIC-implementation-of-8-bit-divider)
 
-8-bit unsigned sequential divider with a `start`/`done` handshake, taken from RTL to a routed layout.
+8-bit unsigned radix-2 restoring divider controlled by a 3-state FSM (`IDLE` / `DIVIDE` / `DONE`) with a `start`/`done` handshake. It is taken from Verilog RTL through a Cadence flow on a 45 nm GPDK.
 
-- **Front end ([RTL-of-8-bit-Divider](https://github.com/Tanisha110705/RTL-of-8-bit-Divider)):** Genus synthesis met a 650 ps clock in baseline, clock-gated, and physical-aware runs. SDF-annotated gate-level simulation passed, and Conformal LEC showed 64/64 points equivalent
-- **Back end ([ASIC-implementation-of-8-bit-divider](https://github.com/Tanisha110705/ASIC-implementation-of-8-bit-divider)):** Innovus floorplan → placement → CTS → routing. Then DRC and connectivity checks, SPEF extraction, and Tempus STA with 0 failing setup or hold paths
-- **Tools:** Verilog · Genus · Innovus · Tempus · Xcelium · Conformal
+- **Verification:** an exhaustive self-checking RTL testbench passes all 65,536 operand pairs with 0 errors. It is backed by SDF-annotated gate-level simulation and Conformal LEC (64/64 points equivalent)
+- **Synthesis (Genus):** timing met at 1000 ps (+309 ps slack) and 500 ps (0 ps slack)
+- **Physical design (Innovus):** floorplan → placement → CTS → routing, with 0 DRC and 0 connectivity violations
+- **STA (Tempus):** 0 failing post-route setup paths. Hold violations went from 33 failing paths to 14 after the first ECO round, and a second round followed
+- **Tools:** Verilog · ModelSim · Xcelium · Genus · Conformal · Innovus · Tempus
 
-### [RISC-V Core DFT: Scan Insertion and ATPG](https://github.com/Tanisha110705/riscv-dft-atpg)
+### [VLSI DFT: Scan Insertion and ATPG](https://github.com/Tanisha110705/vlsi-testing-atpg)
 
-DFT flow on a gate-level RISC-V core synthesized to a TSMC 65 nm library.
+Scan insertion on a gate-level RISC-V core (TSMC 65 nm), plus ATPG, fault simulation and pattern compaction.
 
-- **Scan:** 2,319 flip-flops stitched into 5 balanced chains (464/464/464/464/463), with lockup latches and scan ports added
-- **ATPG (lab scan netlist):** stuck-at test coverage 100% (fault coverage 97.82%); transition test coverage 85.95%
-- **Tools:** Synopsys Design Compiler · Siemens Tessent · Questa Sim
+- **Scan (Tessent):** 2,319 flip-flops stitched into 5 balanced chains (464/464/464/464/463), with lockup latches and scan ports added
+- **ATPG (Tessent, lab scan netlist):** stuck-at test coverage 100% (fault coverage 97.82%); transition test coverage 85.95%
+- **Benchmark ATPG (Atalanta, ISCAS-85):** compaction cut patterns by 44.1% across 4 circuits with no loss of detected faults
+- **Tools:** Synopsys Design Compiler · Siemens Tessent · Atalanta · Questa Sim
 
 ### [STI Process Simulation and Cone Defect Analysis](https://github.com/Tanisha110705/sti-tcad-cone-defect)
 
@@ -107,9 +110,9 @@ Low-voltage lab prototype that detects open-circuit, overcurrent, and obstacle c
 |---|---|
 | −10.9% switching power, −15.0% cell area | IEEE-754 FP adder (Genus, 45 nm) |
 | +1550 ps setup slack at 200 MHz, 1,004 vectors with 0 errors | IEEE-754 FP adder |
-| 0 failing setup/hold paths after routing (Tempus) | 8-bit divider |
-| 2,319 flip-flops → 5 scan chains, 1-cell length spread | RISC-V DFT |
-| 44.1% fewer test patterns after compaction across 4 ISCAS-85 circuits | [VLSI Testing ATPG](https://github.com/Tanisha110705/vlsi-testing-atpg) |
+| All 65,536 operand pairs correct in exhaustive self-checking RTL test | 8-bit divider |
+| 2,319 flip-flops → 5 scan chains, 1-cell length spread | VLSI DFT (RISC-V core) |
+| 44.1% fewer test patterns after compaction across 4 ISCAS-85 circuits | VLSI DFT (Atalanta) |
 | 107 MHz – 4.21 GHz VCO tuning range | Full-custom PLL |
 | Ron 52.5–55.1 Ω (±2.4%) over input range, −67.17 dB THD at 7.5 MHz | [Bootstrapped NMOS switch](https://github.com/Tanisha110705/bootstrapped-nmos-switch) |
 
@@ -145,17 +148,14 @@ B.Tech Electronics Engineering (VLSI Design and Technology) · 2023 – Present 
 **VLSI / Digital**
 
 - [Power-Optimized-IEEE754-FP-Adder](https://github.com/Tanisha110705/Power-Optimized-IEEE754-FP-Adder): dual-path FP adder with operand isolation
-- [fsm-divider-rtl](https://github.com/Tanisha110705/fsm-divider-rtl): 8-bit divider synthesis, gate-level simulation, and LEC
-- [ASIC-implementation-of-8-bit-divider](https://github.com/Tanisha110705/ASIC-implementation-of-8-bit-divider): 8-bit divider place-and-route and Tempus STA
+- [ASIC-implementation-of-8-bit-divider](https://github.com/Tanisha110705/ASIC-implementation-of-8-bit-divider): FSM-based 8-bit divider from RTL through Genus, Innovus, and Tempus
 - [ASIC-Implementation-of-a-counter](https://github.com/Tanisha110705/ASIC-Implementation-of-a-counter): counter through Genus, LEC, and Innovus
 - [32-bit-pipelined-multiplier](https://github.com/Tanisha110705/32-bit-pipelined-multiplier): pipelined multiplier RTL and testbench
 - [spi-master-verification](https://github.com/Tanisha110705/spi-master-verification): self-checking SystemVerilog testbench for SPI master modes 0–3
 
 **DFT / Testing**
 
-- [riscv-dft-atpg](https://github.com/Tanisha110705/riscv-dft-atpg): scan insertion and stuck-at/transition ATPG on a RISC-V core
-- [vlsi-testing-atpg](https://github.com/Tanisha110705/vlsi-testing-atpg): stuck-at ATPG, fault coverage, and compaction on ISCAS-85 benchmarks
-- [scan-insertion-tessent](https://github.com/Tanisha110705/scan-insertion-tessent): Tessent DFT rule checks, scan stitching, and chain balancing
+- [vlsi-testing-atpg](https://github.com/Tanisha110705/vlsi-testing-atpg): RISC-V scan insertion, Tessent and Atalanta ATPG, fault coverage, and pattern compaction
 
 **Analog / Mixed Signal**
 
