@@ -52,7 +52,7 @@ I design digital blocks in Verilog and take them through Cadence synthesis, stat
 
 8-bit unsigned sequential divider with a `start`/`done` handshake, taken from RTL to a routed layout.
 
-- **Front end ([fsm-divider-rtl](https://github.com/Tanisha110705/fsm-divider-rtl)):** Genus synthesis met a 650 ps clock in baseline, clock-gated, and physical-aware runs. SDF-annotated gate-level simulation passed, and Conformal LEC showed 64/64 points equivalent
+- **Front end ([RTL-of-8-bit-Divider](https://github.com/Tanisha110705/RTL-of-8-bit-Divider)):** Genus synthesis met a 650 ps clock in baseline, clock-gated, and physical-aware runs. SDF-annotated gate-level simulation passed, and Conformal LEC showed 64/64 points equivalent
 - **Back end ([ASIC-implementation-of-8-bit-divider](https://github.com/Tanisha110705/ASIC-implementation-of-8-bit-divider)):** Innovus floorplan → placement → CTS → routing. Then DRC and connectivity checks, SPEF extraction, and Tempus STA with 0 failing setup or hold paths
 - **Tools:** Verilog · Genus · Innovus · Tempus · Xcelium · Conformal
 
